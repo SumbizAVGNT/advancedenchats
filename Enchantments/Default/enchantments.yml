@@ -405,28 +405,17 @@ carrotplanter:
         - PLANT_SEEDS:2:CARROT
 replanter:
   display: '%group-color%Replanter'
-  description: |-
-    Automatically replants crops when
-    you break them. Works with all crops.
+  description: Replants crops when you break them.
   applies-to: Hoes
   type: MINING
   group: UNIQUE
-  settings:
-    whitelist:
-      - WHEAT
-      - CARROTS
-      - POTATOES
-      - BEETROOTS
-      - NETHER_WART
-      - COCOA
-      - TORCHFLOWER_CROP
-      - PITCHER_CROP
   applies:
     - ALL_HOE
   levels:
     '1':
       conditions:
-        - '%is crop% = true : %allow%'
+        - '%is crop% = false : %stop%'
+        - '%is fully grown% = false : %stop%'
       effects:
         - PLANT_SEEDS:0:%block drop type%
 strike:
@@ -596,9 +585,7 @@ aquatic:
         - POTION:WATER_BREATHING:0
 smelting:
   display: '%group-color%Smelting'
-  description: |-
-    Chance to smelt mined blocks.
-    Works on all ores including Nether ores.
+  description: Chance to smelt mined blocks.
   applies-to: Pickaxes
   type: MINING
   group: SIMPLE
@@ -608,56 +595,14 @@ smelting:
   levels:
     '1':
       chance: 33
-      settings:
-        whitelist:
-          - IRON_ORE
-          - DEEPSLATE_IRON_ORE
-          - GOLD_ORE
-          - DEEPSLATE_GOLD_ORE
-          - NETHER_GOLD_ORE
-          - COPPER_ORE
-          - DEEPSLATE_COPPER_ORE
-          - ANCIENT_DEBRIS
-          - SAND
-          - RED_SAND
-          - COBBLESTONE
-          - CLAY
       effects:
         - SMELT
     '2':
       chance: 66
-      settings:
-        whitelist:
-          - IRON_ORE
-          - DEEPSLATE_IRON_ORE
-          - GOLD_ORE
-          - DEEPSLATE_GOLD_ORE
-          - NETHER_GOLD_ORE
-          - COPPER_ORE
-          - DEEPSLATE_COPPER_ORE
-          - ANCIENT_DEBRIS
-          - SAND
-          - RED_SAND
-          - COBBLESTONE
-          - CLAY
       effects:
         - SMELT
     '3':
       chance: 100
-      settings:
-        whitelist:
-          - IRON_ORE
-          - DEEPSLATE_IRON_ORE
-          - GOLD_ORE
-          - DEEPSLATE_GOLD_ORE
-          - NETHER_GOLD_ORE
-          - COPPER_ORE
-          - DEEPSLATE_COPPER_ORE
-          - ANCIENT_DEBRIS
-          - SAND
-          - RED_SAND
-          - COBBLESTONE
-          - CLAY
       effects:
         - SMELT
 experience:
@@ -3360,9 +3305,7 @@ block:
         - DO_HARM:<random number>1-4</random number> @Attacker
 trench:
   display: '%group-color%Trench'
-  description: |-
-    Chance to break in 3x3 area.
-    Gives XP from all ores broken.
+  description: Chance to break in 3x3 area.
   applies-to: Pickaxes, Shovels
   type: MINING
   group: ULTIMATE
@@ -3373,39 +3316,39 @@ trench:
     '1':
       chance: 13
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '2':
       chance: 26
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '3':
       chance: 36
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '4':
       chance: 49
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '5':
       chance: 59
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '6':
       chance: 72
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '7':
       chance: 85
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '8':
       chance: 90
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
     '9':
       chance: 100
       effects:
-        - BREAK_BLOCK @Trench{r=3,xp=true}
+        - BREAK_BLOCK @Trench{r=3}
 dodge:
   display: '%group-color%Dodge'
   description: |-
@@ -4337,7 +4280,7 @@ swordsman:
         - DECREASE_DAMAGE:<random number>18-22</random number> @Victim
 critical:
   display: '%group-color%Critical'
-  description: Increase damage done with critical hit by 30%.
+  description: Increase damage done with critical hit.
   applies-to: Swords
   type: ATTACK_MOB;ATTACK
   group: ELITE
@@ -4345,20 +4288,26 @@ critical:
     - ALL_SWORD
   levels:
     '1':
+      chance: 7
+      cooldown: 5
       conditions:
         - '%is critical% = true : %allow%'
       effects:
-        - INCREASE_DAMAGE:30
+        - INCREASE_DAMAGE:10
     '2':
+      chance: 8
+      cooldown: 5
       conditions:
         - '%is critical% = true : %allow%'
       effects:
-        - INCREASE_DAMAGE:40
+        - INCREASE_DAMAGE:15
     '3':
+      chance: 12
+      cooldown: 5
       conditions:
         - '%is critical% = true : %allow%'
       effects:
-        - INCREASE_DAMAGE:50
+        - INCREASE_DAMAGE:20
 rebound:
   display: '%group-color%Rebound'
   description: Gain some health back after kills.
@@ -5150,9 +5099,7 @@ killaura:
         - KILL:1 @Aoe{radius=4,target=mobs}
 inquisitive:
   display: '%group-color%Inquisitive'
-  description: |-
-    Increases EXP drops from mobs
-    by 10% per level.
+  description: Chance to increase EXP drops from mobs.
   applies-to: Swords
   type: KILL_MOB
   group: LEGENDARY
@@ -5160,22 +5107,30 @@ inquisitive:
     - ALL_SWORD
   levels:
     '1':
+      chance: 30
+      cooldown: 4
       effects:
-        - EXP:<math>%exp% * 1.1</math> @Victim
+        - EXP:<math>%exp% * (1.0 + 0.25 * %level%)</math> @Victim
     '2':
+      chance: 35
+      cooldown: 4
       effects:
-        - EXP:<math>%exp% * 1.2</math> @Victim
+        - EXP:<math>%exp% * (1.0 + 0.25 * %level%)</math> @Victim
     '3':
+      chance: 40
+      cooldown: 4
       effects:
-        - EXP:<math>%exp% * 1.3</math> @Victim
+        - EXP:<math>%exp% * (1.0 + 0.25 * %level%)</math> @Victim
     '4':
+      chance: 45
+      cooldown: 4
       effects:
-        - EXP:<math>%exp% * 1.4</math> @Victim
+        - EXP:<math>%exp% * (1.0 + 0.25 * %level%)</math> @Victim
 lifesteal:
   display: '%group-color%Lifesteal'
   description: |-
-    Heals you based on damage dealt.
-    Higher levels heal more HP.
+    A chance to steal health
+    when attacking.
   applies-to: Swords
   type: ATTACK;ATTACK_MOB
   group: LEGENDARY
@@ -5183,100 +5138,48 @@ lifesteal:
     - ALL_SWORD
   levels:
     '1':
-      chance: 10
-      cooldown: 7
+      chance: 9
+      cooldown: 15
       effects:
-        - ADD_HEALTH:3 @Attacker
+        - STEAL_HEALTH:<random number>1-3</random number> @Attacker
     '2':
-      chance: 15
-      cooldown: 6
+      chance: 13
+      cooldown: 15
       effects:
-        - ADD_HEALTH:5 @Attacker
+        - STEAL_HEALTH:<random number>1-3</random number> @Attacker
     '3':
-      chance: 20
-      cooldown: 5
+      chance: 17
+      cooldown: 15
       effects:
-        - ADD_HEALTH:7 @Attacker
-overload_helmet:
+        - STEAL_HEALTH:<random number>1-4</random number> @Attacker
+    '4':
+      chance: 21
+      cooldown: 15
+      effects:
+        - STEAL_HEALTH:<random number>1-5</random number> @Attacker
+    '5':
+      chance: 25
+      cooldown: 15
+      effects:
+        - STEAL_HEALTH:<random number>1-5</random number> @Attacker
+overload:
   display: '%group-color%Overload'
-  description: |-
-    Unlocks additional hearts.
-    Stacks with other armor pieces.
-  applies-to: Helmets
+  description: Unlocks additional hearts.
+  applies-to: Armor
   type: EFFECT_STATIC
   group: LEGENDARY
   applies:
-    - ALL_HELMET
+    - ALL_ARMOR
   levels:
     '1':
       effects:
-        - ADD_HEALTH:2 @Self
+        - POTION:HEALTH_BOOST:0
     '2':
       effects:
-        - ADD_HEALTH:4 @Self
+        - POTION:HEALTH_BOOST:1
     '3':
       effects:
-        - ADD_HEALTH:6 @Self
-overload_chestplate:
-  display: '%group-color%Overload'
-  description: |-
-    Unlocks additional hearts.
-    Stacks with other armor pieces.
-  applies-to: Chestplates
-  type: EFFECT_STATIC
-  group: LEGENDARY
-  applies:
-    - ALL_CHESTPLATE
-  levels:
-    '1':
-      effects:
-        - ADD_HEALTH:2 @Self
-    '2':
-      effects:
-        - ADD_HEALTH:4 @Self
-    '3':
-      effects:
-        - ADD_HEALTH:6 @Self
-overload_leggings:
-  display: '%group-color%Overload'
-  description: |-
-    Unlocks additional hearts.
-    Stacks with other armor pieces.
-  applies-to: Leggings
-  type: EFFECT_STATIC
-  group: LEGENDARY
-  applies:
-    - ALL_LEGGINGS
-  levels:
-    '1':
-      effects:
-        - ADD_HEALTH:2 @Self
-    '2':
-      effects:
-        - ADD_HEALTH:4 @Self
-    '3':
-      effects:
-        - ADD_HEALTH:6 @Self
-overload_boots:
-  display: '%group-color%Overload'
-  description: |-
-    Unlocks additional hearts.
-    Stacks with other armor pieces.
-  applies-to: Boots
-  type: EFFECT_STATIC
-  group: LEGENDARY
-  applies:
-    - ALL_BOOTS
-  levels:
-    '1':
-      effects:
-        - ADD_HEALTH:2 @Self
-    '2':
-      effects:
-        - ADD_HEALTH:4 @Self
-    '3':
-      effects:
-        - ADD_HEALTH:6 @Self
+        - POTION:HEALTH_BOOST:2
 armored:
   display: '%group-color%Armored'
   description: "Decreases damage from enemy\nswords by 2% per level."
