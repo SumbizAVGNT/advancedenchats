@@ -6462,3 +6462,985 @@ magnet:
       cooldown: 5
       effects:
         - PULL_CLOSER:3 @Victim
+
+# ============================================
+# ANARCHY PVP ENCHANTMENTS
+# ============================================
+
+# --- WEAPON ENCHANTMENTS (PVP) ---
+
+executioner:
+  display: '%group-color%Executioner'
+  description: |-
+    Deal bonus damage to enemies
+    with low health. Perfect for finishing.
+  applies-to: Swords, Axes
+  type: ATTACK
+  group: LEGENDARY
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      conditions:
+        - '%victim health% < 10 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:25
+    '2':
+      conditions:
+        - '%victim health% < 12 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:35
+    '3':
+      conditions:
+        - '%victim health% < 14 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:50
+
+berserker:
+  display: '%group-color%Berserker'
+  description: |-
+    Deal more damage when you
+    are low on health. Risk vs reward.
+  applies-to: Swords, Axes
+  type: ATTACK;ATTACK_MOB
+  group: LEGENDARY
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      conditions:
+        - '%attacker health% < 10 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:20
+    '2':
+      conditions:
+        - '%attacker health% < 12 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:35
+    '3':
+      conditions:
+        - '%attacker health% < 14 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:50
+
+armor_piercer:
+  display: '%group-color%Armor Piercer'
+  description: |-
+    Your attacks ignore a portion
+    of enemy armor.
+  applies-to: Swords, Axes
+  type: ATTACK
+  group: FABLED
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      chance: 20
+      effects:
+        - IGNORE_ARMOR
+    '2':
+      chance: 35
+      effects:
+        - IGNORE_ARMOR
+    '3':
+      chance: 50
+      effects:
+        - IGNORE_ARMOR
+
+bleed:
+  display: '%group-color%Bleed'
+  description: |-
+    Inflict bleeding damage over time.
+    Stacks with multiple hits.
+  applies-to: Swords, Axes
+  type: ATTACK
+  group: ELITE
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      chance: 15
+      cooldown: 3
+      effects:
+        - REPEAT{t=20,d=3}[REMOVE_HEALTH:1 @Victim]
+        - PARTICLE:REDSTONE:10:0.3 @Victim
+    '2':
+      chance: 20
+      cooldown: 3
+      effects:
+        - REPEAT{t=20,d=4}[REMOVE_HEALTH:1 @Victim]
+        - PARTICLE:REDSTONE:10:0.3 @Victim
+    '3':
+      chance: 25
+      cooldown: 3
+      effects:
+        - REPEAT{t=20,d=5}[REMOVE_HEALTH:1.5 @Victim]
+        - PARTICLE:REDSTONE:10:0.3 @Victim
+
+disarm:
+  display: '%group-color%Disarm'
+  description: |-
+    Chance to make your opponent
+    drop their weapon.
+  applies-to: Swords, Axes
+  type: ATTACK
+  group: FABLED
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      chance: 3
+      cooldown: 30
+      effects:
+        - DROP_ITEM @Victim
+        - MESSAGE:&c&l** DISARMED ** @Victim
+        - PLAY_SOUND:ENTITY_ITEM_BREAK @Victim
+    '2':
+      chance: 5
+      cooldown: 25
+      effects:
+        - DROP_ITEM @Victim
+        - MESSAGE:&c&l** DISARMED ** @Victim
+        - PLAY_SOUND:ENTITY_ITEM_BREAK @Victim
+    '3':
+      chance: 8
+      cooldown: 20
+      effects:
+        - DROP_ITEM @Victim
+        - MESSAGE:&c&l** DISARMED ** @Victim
+        - PLAY_SOUND:ENTITY_ITEM_BREAK @Victim
+
+combo_strike:
+  display: '%group-color%Combo Strike'
+  description: |-
+    Every 3rd consecutive hit deals
+    bonus damage.
+  applies-to: Swords
+  type: ATTACK
+  group: ULTIMATE
+  applies:
+    - ALL_SWORD
+  levels:
+    '1':
+      conditions:
+        - '%attacker combo% >= 3 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:30
+        - PARTICLE:CRIT:20:0.5 @Victim
+        - RESET_COMBO @Attacker
+    '2':
+      conditions:
+        - '%attacker combo% >= 3 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:45
+        - PARTICLE:CRIT_MAGIC:20:0.5 @Victim
+        - RESET_COMBO @Attacker
+    '3':
+      conditions:
+        - '%attacker combo% >= 3 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:60
+        - PARTICLE:CRIT_MAGIC:30:0.5 @Victim
+        - RESET_COMBO @Attacker
+
+venom:
+  display: '%group-color%Venom'
+  description: |-
+    Poison your enemies on hit.
+    Higher levels = stronger poison.
+  applies-to: Swords
+  type: ATTACK
+  group: ELITE
+  applies:
+    - ALL_SWORD
+  levels:
+    '1':
+      chance: 20
+      cooldown: 5
+      effects:
+        - POTION:POISON:0:60 @Victim
+    '2':
+      chance: 25
+      cooldown: 5
+      effects:
+        - POTION:POISON:1:60 @Victim
+    '3':
+      chance: 30
+      cooldown: 5
+      effects:
+        - POTION:POISON:1:80 @Victim
+
+wither_touch:
+  display: '%group-color%Wither Touch'
+  description: |-
+    Apply wither effect on hit.
+    Deadly damage over time.
+  applies-to: Swords, Axes
+  type: ATTACK
+  group: FABLED
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      chance: 10
+      cooldown: 8
+      effects:
+        - POTION:WITHER:0:40 @Victim
+        - PARTICLE:SMOKE_LARGE:15:0.3 @Victim
+    '2':
+      chance: 15
+      cooldown: 8
+      effects:
+        - POTION:WITHER:1:40 @Victim
+        - PARTICLE:SMOKE_LARGE:15:0.3 @Victim
+    '3':
+      chance: 20
+      cooldown: 8
+      effects:
+        - POTION:WITHER:1:60 @Victim
+        - PARTICLE:SMOKE_LARGE:15:0.3 @Victim
+
+freeze:
+  display: '%group-color%Freeze'
+  description: |-
+    Slow down your enemies significantly.
+    Makes escaping difficult.
+  applies-to: Swords
+  type: ATTACK
+  group: ELITE
+  applies:
+    - ALL_SWORD
+  levels:
+    '1':
+      chance: 15
+      cooldown: 6
+      effects:
+        - POTION:SLOW:1:40 @Victim
+        - PARTICLE:SNOW_SHOVEL:20:0.5 @Victim
+    '2':
+      chance: 20
+      cooldown: 6
+      effects:
+        - POTION:SLOW:2:40 @Victim
+        - PARTICLE:SNOW_SHOVEL:20:0.5 @Victim
+    '3':
+      chance: 25
+      cooldown: 6
+      effects:
+        - POTION:SLOW:2:60 @Victim
+        - POTION:JUMP:-1:60 @Victim
+        - PARTICLE:SNOW_SHOVEL:30:0.5 @Victim
+
+blindness:
+  display: '%group-color%Blindness'
+  description: |-
+    Blind your enemies temporarily.
+    Very effective in combat.
+  applies-to: Swords
+  type: ATTACK
+  group: LEGENDARY
+  applies:
+    - ALL_SWORD
+  levels:
+    '1':
+      chance: 8
+      cooldown: 15
+      effects:
+        - POTION:BLINDNESS:0:30 @Victim
+        - MESSAGE:&8&l** BLINDED ** @Victim
+    '2':
+      chance: 12
+      cooldown: 12
+      effects:
+        - POTION:BLINDNESS:0:40 @Victim
+        - MESSAGE:&8&l** BLINDED ** @Victim
+    '3':
+      chance: 15
+      cooldown: 10
+      effects:
+        - POTION:BLINDNESS:0:60 @Victim
+        - POTION:SLOW:1:40 @Victim
+        - MESSAGE:&8&l** BLINDED ** @Victim
+
+# --- ARMOR ENCHANTMENTS (DEFENSE) ---
+
+tank:
+  display: '%group-color%Tank'
+  description: |-
+    Reduces all incoming damage.
+    Become a walking fortress.
+  applies-to: Chestplates
+  type: DEFENSE
+  group: LEGENDARY
+  applies:
+    - ALL_CHESTPLATE
+  levels:
+    '1':
+      effects:
+        - DECREASE_DAMAGE:5
+    '2':
+      effects:
+        - DECREASE_DAMAGE:10
+    '3':
+      effects:
+        - DECREASE_DAMAGE:15
+
+reflect:
+  display: '%group-color%Reflect'
+  description: |-
+    Reflect a portion of damage
+    back to attacker.
+  applies-to: Armor
+  type: DEFENSE
+  group: FABLED
+  applies:
+    - ALL_ARMOR
+  levels:
+    '1':
+      chance: 15
+      effects:
+        - DO_HARM:<math>%damage% * 0.15</math> @Attacker
+        - PARTICLE:CRIT:10:0.3 @Attacker
+    '2':
+      chance: 20
+      effects:
+        - DO_HARM:<math>%damage% * 0.25</math> @Attacker
+        - PARTICLE:CRIT:10:0.3 @Attacker
+    '3':
+      chance: 25
+      effects:
+        - DO_HARM:<math>%damage% * 0.35</math> @Attacker
+        - PARTICLE:CRIT:10:0.3 @Attacker
+
+second_wind:
+  display: '%group-color%Second Wind'
+  description: |-
+    When low on health, gain
+    regeneration and resistance.
+  applies-to: Chestplates
+  type: DEFENSE
+  group: LEGENDARY
+  applies:
+    - ALL_CHESTPLATE
+  levels:
+    '1':
+      conditions:
+        - '%victim health% < 8 : %allow%'
+      cooldown: 60
+      effects:
+        - POTION:REGENERATION:1:60 @Victim
+        - PARTICLE:HEART:10:0.5 @Victim
+        - MESSAGE:&a&l** SECOND WIND ** @Self
+    '2':
+      conditions:
+        - '%victim health% < 10 : %allow%'
+      cooldown: 50
+      effects:
+        - POTION:REGENERATION:2:60 @Victim
+        - POTION:DAMAGE_RESISTANCE:0:40 @Victim
+        - PARTICLE:HEART:15:0.5 @Victim
+        - MESSAGE:&a&l** SECOND WIND ** @Self
+    '3':
+      conditions:
+        - '%victim health% < 12 : %allow%'
+      cooldown: 45
+      effects:
+        - POTION:REGENERATION:2:80 @Victim
+        - POTION:DAMAGE_RESISTANCE:1:40 @Victim
+        - PARTICLE:HEART:20:0.5 @Victim
+        - MESSAGE:&a&l** SECOND WIND ** @Self
+
+anti_knockback:
+  display: '%group-color%Anti-Knockback'
+  description: |-
+    Reduces knockback from attacks.
+    Stand your ground.
+  applies-to: Leggings
+  type: DEFENSE
+  group: ULTIMATE
+  applies:
+    - ALL_LEGGINGS
+  levels:
+    '1':
+      chance: 30
+      effects:
+        - CANCEL_KNOCKBACK
+    '2':
+      chance: 50
+      effects:
+        - CANCEL_KNOCKBACK
+    '3':
+      chance: 70
+      effects:
+        - CANCEL_KNOCKBACK
+
+rage:
+  display: '%group-color%Rage'
+  description: |-
+    Gain strength when taking damage.
+    The more you get hit, the stronger.
+  applies-to: Chestplates
+  type: DEFENSE
+  group: LEGENDARY
+  applies:
+    - ALL_CHESTPLATE
+  levels:
+    '1':
+      chance: 20
+      cooldown: 10
+      effects:
+        - POTION:INCREASE_DAMAGE:0:60 @Victim
+        - PARTICLE:VILLAGER_ANGRY:10:0.5 @Victim
+    '2':
+      chance: 30
+      cooldown: 10
+      effects:
+        - POTION:INCREASE_DAMAGE:0:80 @Victim
+        - POTION:SPEED:0:60 @Victim
+        - PARTICLE:VILLAGER_ANGRY:10:0.5 @Victim
+    '3':
+      chance: 40
+      cooldown: 10
+      effects:
+        - POTION:INCREASE_DAMAGE:1:60 @Victim
+        - POTION:SPEED:1:60 @Victim
+        - PARTICLE:VILLAGER_ANGRY:15:0.5 @Victim
+
+phoenix:
+  display: '%group-color%Phoenix'
+  description: |-
+    Chance to survive lethal damage
+    and resurrect with health.
+  applies-to: Chestplates
+  type: DEATH
+  group: FABLED
+  applies:
+    - ALL_CHESTPLATE
+  levels:
+    '1':
+      chance: 5
+      cooldown: 300
+      effects:
+        - CANCEL_EVENT
+        - ADD_HEALTH:6 @Victim
+        - POTION:FIRE_RESISTANCE:0:100 @Victim
+        - PARTICLE:FLAME:50:1 @Victim
+        - MESSAGE:&6&l** PHOENIX RESURRECTION ** @Self
+        - PLAY_SOUND:ENTITY_BLAZE_SHOOT @Self
+    '2':
+      chance: 8
+      cooldown: 240
+      effects:
+        - CANCEL_EVENT
+        - ADD_HEALTH:10 @Victim
+        - POTION:FIRE_RESISTANCE:0:100 @Victim
+        - POTION:REGENERATION:1:60 @Victim
+        - PARTICLE:FLAME:50:1 @Victim
+        - MESSAGE:&6&l** PHOENIX RESURRECTION ** @Self
+        - PLAY_SOUND:ENTITY_BLAZE_SHOOT @Self
+    '3':
+      chance: 12
+      cooldown: 180
+      effects:
+        - CANCEL_EVENT
+        - ADD_HEALTH:14 @Victim
+        - POTION:FIRE_RESISTANCE:0:100 @Victim
+        - POTION:REGENERATION:2:60 @Victim
+        - POTION:DAMAGE_RESISTANCE:1:60 @Victim
+        - PARTICLE:FLAME:50:1 @Victim
+        - MESSAGE:&6&l** PHOENIX RESURRECTION ** @Self
+        - PLAY_SOUND:ENTITY_BLAZE_SHOOT @Self
+
+thorn_armor:
+  display: '%group-color%Thorn Armor'
+  description: |-
+    Attackers receive damage when
+    hitting you. Enhanced thorns.
+  applies-to: Armor
+  type: DEFENSE
+  group: ELITE
+  applies:
+    - ALL_ARMOR
+  levels:
+    '1':
+      chance: 25
+      effects:
+        - DO_HARM:2 @Attacker
+    '2':
+      chance: 35
+      effects:
+        - DO_HARM:3 @Attacker
+    '3':
+      chance: 45
+      effects:
+        - DO_HARM:4 @Attacker
+
+escape_artist:
+  display: '%group-color%Escape Artist'
+  description: |-
+    When low on health, gain speed
+    boost to escape.
+  applies-to: Boots
+  type: DEFENSE
+  group: ULTIMATE
+  applies:
+    - ALL_BOOTS
+  levels:
+    '1':
+      conditions:
+        - '%victim health% < 8 : %allow%'
+      cooldown: 30
+      effects:
+        - POTION:SPEED:1:60 @Victim
+    '2':
+      conditions:
+        - '%victim health% < 10 : %allow%'
+      cooldown: 25
+      effects:
+        - POTION:SPEED:2:60 @Victim
+    '3':
+      conditions:
+        - '%victim health% < 12 : %allow%'
+      cooldown: 20
+      effects:
+        - POTION:SPEED:2:80 @Victim
+        - POTION:JUMP:1:60 @Victim
+
+# --- STATIC ARMOR BONUSES ---
+
+speed_boost:
+  display: '%group-color%Speed Boost'
+  description: |-
+    Permanent speed boost
+    while wearing.
+  applies-to: Boots
+  type: EFFECT_STATIC
+  group: ELITE
+  applies:
+    - ALL_BOOTS
+  levels:
+    '1':
+      effects:
+        - POTION:SPEED:0
+    '2':
+      effects:
+        - POTION:SPEED:1
+
+strength_boost:
+  display: '%group-color%Strength Boost'
+  description: |-
+    Permanent strength boost
+    while wearing.
+  applies-to: Chestplates
+  type: EFFECT_STATIC
+  group: LEGENDARY
+  applies:
+    - ALL_CHESTPLATE
+  levels:
+    '1':
+      effects:
+        - POTION:INCREASE_DAMAGE:0
+    '2':
+      effects:
+        - POTION:INCREASE_DAMAGE:1
+
+resistance_boost:
+  display: '%group-color%Resistance'
+  description: |-
+    Permanent damage resistance
+    while wearing.
+  applies-to: Leggings
+  type: EFFECT_STATIC
+  group: LEGENDARY
+  applies:
+    - ALL_LEGGINGS
+  levels:
+    '1':
+      effects:
+        - POTION:DAMAGE_RESISTANCE:0
+    '2':
+      effects:
+        - POTION:DAMAGE_RESISTANCE:1
+
+night_vision:
+  display: '%group-color%Night Vision'
+  description: |-
+    Permanent night vision
+    while wearing.
+  applies-to: Helmets
+  type: EFFECT_STATIC
+  group: SIMPLE
+  applies:
+    - ALL_HELMET
+  levels:
+    '1':
+      effects:
+        - POTION:NIGHT_VISION:0
+
+# --- TOOL ENCHANTMENTS ---
+
+vein_miner:
+  display: '%group-color%Vein Miner'
+  description: |-
+    Break entire ore veins at once.
+    Ultimate mining efficiency.
+  applies-to: Pickaxes
+  type: MINING
+  group: FABLED
+  settings:
+    whitelist:
+      - COAL_ORE
+      - DEEPSLATE_COAL_ORE
+      - IRON_ORE
+      - DEEPSLATE_IRON_ORE
+      - GOLD_ORE
+      - DEEPSLATE_GOLD_ORE
+      - NETHER_GOLD_ORE
+      - COPPER_ORE
+      - DEEPSLATE_COPPER_ORE
+      - DIAMOND_ORE
+      - DEEPSLATE_DIAMOND_ORE
+      - EMERALD_ORE
+      - DEEPSLATE_EMERALD_ORE
+      - LAPIS_ORE
+      - DEEPSLATE_LAPIS_ORE
+      - REDSTONE_ORE
+      - DEEPSLATE_REDSTONE_ORE
+      - NETHER_QUARTZ_ORE
+      - ANCIENT_DEBRIS
+  applies:
+    - ALL_PICKAXE
+  levels:
+    '1':
+      chance: 30
+      effects:
+        - BREAK_BLOCK @Vein{r=16}
+    '2':
+      chance: 50
+      effects:
+        - BREAK_BLOCK @Vein{r=24}
+    '3':
+      chance: 70
+      effects:
+        - BREAK_BLOCK @Vein{r=32}
+
+lucky_miner:
+  display: '%group-color%Lucky Miner'
+  description: |-
+    Chance to double ore drops.
+    Stack with Fortune!
+  applies-to: Pickaxes
+  type: MINING
+  group: LEGENDARY
+  settings:
+    whitelist:
+      - COAL_ORE
+      - DEEPSLATE_COAL_ORE
+      - IRON_ORE
+      - DEEPSLATE_IRON_ORE
+      - GOLD_ORE
+      - DEEPSLATE_GOLD_ORE
+      - NETHER_GOLD_ORE
+      - COPPER_ORE
+      - DEEPSLATE_COPPER_ORE
+      - DIAMOND_ORE
+      - DEEPSLATE_DIAMOND_ORE
+      - EMERALD_ORE
+      - DEEPSLATE_EMERALD_ORE
+      - LAPIS_ORE
+      - DEEPSLATE_LAPIS_ORE
+      - REDSTONE_ORE
+      - DEEPSLATE_REDSTONE_ORE
+      - NETHER_QUARTZ_ORE
+      - ANCIENT_DEBRIS
+  applies:
+    - ALL_PICKAXE
+  levels:
+    '1':
+      chance: 10
+      effects:
+        - MORE_DROPS:2 @Block
+    '2':
+      chance: 20
+      effects:
+        - MORE_DROPS:2 @Block
+    '3':
+      chance: 30
+      effects:
+        - MORE_DROPS:2 @Block
+
+haste:
+  display: '%group-color%Haste'
+  description: |-
+    Mine faster while holding.
+    Permanent haste effect.
+  applies-to: Pickaxes
+  type: HELD
+  group: ELITE
+  applies:
+    - ALL_PICKAXE
+  levels:
+    '1':
+      effects:
+        - POTION:FAST_DIGGING:0
+    '2':
+      effects:
+        - POTION:FAST_DIGGING:1
+    '3':
+      effects:
+        - POTION:FAST_DIGGING:2
+
+# --- BOW ENCHANTMENTS ---
+
+sniper:
+  display: '%group-color%Sniper'
+  description: |-
+    Deal more damage at longer range.
+    Reward skillful shots.
+  applies-to: Bows
+  type: SHOOT
+  group: LEGENDARY
+  applies:
+    - BOW
+    - CROSSBOW
+  levels:
+    '1':
+      conditions:
+        - '%distance% > 30 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:30
+    '2':
+      conditions:
+        - '%distance% > 25 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:45
+    '3':
+      conditions:
+        - '%distance% > 20 : %allow%'
+      effects:
+        - INCREASE_DAMAGE:60
+
+explosive_arrow:
+  display: '%group-color%Explosive Arrow'
+  description: |-
+    Arrows explode on impact.
+    Area damage effect.
+  applies-to: Bows
+  type: SHOOT
+  group: FABLED
+  applies:
+    - BOW
+    - CROSSBOW
+  levels:
+    '1':
+      chance: 10
+      cooldown: 10
+      effects:
+        - EXPLOSION:1:false @Victim
+    '2':
+      chance: 15
+      cooldown: 8
+      effects:
+        - EXPLOSION:2:false @Victim
+    '3':
+      chance: 20
+      cooldown: 6
+      effects:
+        - EXPLOSION:2.5:false @Victim
+
+headhunter:
+  display: '%group-color%Headhunter'
+  description: |-
+    Headshots deal massive bonus damage.
+    Aim for the head!
+  applies-to: Bows
+  type: SHOOT
+  group: LEGENDARY
+  applies:
+    - BOW
+    - CROSSBOW
+  levels:
+    '1':
+      conditions:
+        - '%is headshot% = true : %allow%'
+      effects:
+        - INCREASE_DAMAGE:50
+        - PARTICLE:CRIT:20:0.3 @Victim
+    '2':
+      conditions:
+        - '%is headshot% = true : %allow%'
+      effects:
+        - INCREASE_DAMAGE:75
+        - PARTICLE:CRIT:20:0.3 @Victim
+    '3':
+      conditions:
+        - '%is headshot% = true : %allow%'
+      effects:
+        - INCREASE_DAMAGE:100
+        - PARTICLE:CRIT:30:0.3 @Victim
+
+piercing_shot:
+  display: '%group-color%Piercing Shot'
+  description: |-
+    Arrows ignore armor completely.
+    True damage.
+  applies-to: Bows
+  type: SHOOT
+  group: FABLED
+  applies:
+    - BOW
+    - CROSSBOW
+  levels:
+    '1':
+      chance: 15
+      effects:
+        - IGNORE_ARMOR
+    '2':
+      chance: 25
+      effects:
+        - IGNORE_ARMOR
+    '3':
+      chance: 40
+      effects:
+        - IGNORE_ARMOR
+
+# --- SPECIAL/UTILITY ---
+
+soul_bound:
+  display: '%group-color%Soul Bound'
+  description: |-
+    Item is kept on death.
+    Never lose this item.
+  applies-to: All Items
+  type: DEATH
+  group: FABLED
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+    - ALL_ARMOR
+    - ALL_PICKAXE
+    - BOW
+    - CROSSBOW
+  levels:
+    '1':
+      effects:
+        - KEEP_ITEM @Self
+        - MESSAGE:&6Soul Bound item saved! @Self
+
+auto_repair:
+  display: '%group-color%Auto Repair'
+  description: |-
+    Item slowly repairs itself
+    over time while held.
+  applies-to: All Items
+  type: HELD
+  group: LEGENDARY
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+    - ALL_ARMOR
+    - ALL_PICKAXE
+    - ALL_TOOLS
+  levels:
+    '1':
+      cooldown: 60
+      effects:
+        - ADD_DURABILITY_CURRENT_ITEM:10
+    '2':
+      cooldown: 45
+      effects:
+        - ADD_DURABILITY_CURRENT_ITEM:15
+    '3':
+      cooldown: 30
+      effects:
+        - ADD_DURABILITY_CURRENT_ITEM:20
+
+grapple:
+  display: '%group-color%Grapple'
+  description: |-
+    Pull yourself towards your target.
+    Great for chasing.
+  applies-to: Swords
+  type: ATTACK
+  group: ULTIMATE
+  applies:
+    - ALL_SWORD
+  levels:
+    '1':
+      chance: 15
+      cooldown: 10
+      effects:
+        - PULL_TO_LOCATION @Victim
+    '2':
+      chance: 20
+      cooldown: 8
+      effects:
+        - PULL_TO_LOCATION @Victim
+    '3':
+      chance: 25
+      cooldown: 6
+      effects:
+        - PULL_TO_LOCATION @Victim
+
+adrenaline:
+  display: '%group-color%Adrenaline'
+  description: |-
+    After killing a player, gain
+    temporary combat buffs.
+  applies-to: Swords, Axes
+  type: KILL_PLAYER
+  group: LEGENDARY
+  applies:
+    - ALL_SWORD
+    - ALL_AXE
+  levels:
+    '1':
+      effects:
+        - POTION:SPEED:0:100 @Attacker
+        - POTION:REGENERATION:0:60 @Attacker
+        - MESSAGE:&c&l** ADRENALINE RUSH ** @Self
+    '2':
+      effects:
+        - POTION:SPEED:1:100 @Attacker
+        - POTION:REGENERATION:1:60 @Attacker
+        - POTION:INCREASE_DAMAGE:0:60 @Attacker
+        - MESSAGE:&c&l** ADRENALINE RUSH ** @Self
+    '3':
+      effects:
+        - POTION:SPEED:1:120 @Attacker
+        - POTION:REGENERATION:2:60 @Attacker
+        - POTION:INCREASE_DAMAGE:1:60 @Attacker
+        - ADD_HEALTH:4 @Attacker
+        - MESSAGE:&c&l** ADRENALINE RUSH ** @Self
+
+# --- ELYTRA ENCHANTMENTS ---
+
+rocket_boost:
+  display: '%group-color%Rocket Boost'
+  description: |-
+    Boost your elytra speed
+    when flying.
+  applies-to: Elytra
+  type: ELYTRA
+  group: LEGENDARY
+  applies:
+    - ELYTRA
+  levels:
+    '1':
+      cooldown: 5
+      effects:
+        - BOOST_FLY:1.2 @Self
+    '2':
+      cooldown: 4
+      effects:
+        - BOOST_FLY:1.5 @Self
+    '3':
+      cooldown: 3
+      effects:
+        - BOOST_FLY:2 @Self
